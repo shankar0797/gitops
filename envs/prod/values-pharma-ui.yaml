@@ -1,0 +1,59 @@
+replicaCount: 3
+
+image:
+  repository: 683604924610.dkr.ecr.us-east-1.amazonaws.com/pharma-ui
+  tag: latest
+  pullPolicy: Always
+
+serviceAccount:
+  create: true
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+ingress:
+  enabled: true
+  className: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: pharma-prod
+  hosts:
+    - host: ""
+      paths:
+        - path: /
+          pathType: Prefix
+
+config:
+  API_BASE_URL: "/api"
+  AUTH_BASE_URL: "/api/auth"
+  ENV: "prod"
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+probes:
+  liveness:
+    path: /
+    port: 80
+  readiness:
+    path: /
+    port: 80
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+securityContext:
+  runAsNonRoot: true
+  readOnlyRootFilesystem: true
