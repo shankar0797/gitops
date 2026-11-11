@@ -1,26 +1,21 @@
-﻿replicaCount: 1
+replicaCount: 1
 fullnameOverride: qc-service
-
 image:
   repository: "683604924610.dkr.ecr.us-east-1.amazonaws.com/qc-service"
-  tag: latest
+  tag: sha-a93dc4f
   pullPolicy: Always
-
 serviceAccount:
   create: true
   name: qc-service
   annotations: {}
-
 service:
   type: ClusterIP
   port: 8086
   targetPort: 8086
-
 ingress:
   enabled: false
   className: alb
   annotations: {}
-
 resources:
   requests:
     cpu: 100m
@@ -28,13 +23,11 @@ resources:
   limits:
     cpu: 500m
     memory: 512Mi
-
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 70
-
 livenessProbe:
   path: "/actuator/health"
   port: 8086
@@ -43,7 +36,6 @@ livenessProbe:
   timeoutSeconds: 5
   failureThreshold: 3
   successThreshold: 1
-
 readinessProbe:
   path: "/actuator/health/readiness"
   port: 8086
@@ -52,21 +44,16 @@ readinessProbe:
   timeoutSeconds: 5
   failureThreshold: 3
   successThreshold: 1
-
 configmap:
   SPRING_PROFILES_ACTIVE: dev
   LOG_LEVEL: DEBUG
   SERVER_PORT: "8086"
-
 envFrom:
   - secretRef:
       name: db-credentials
-
 volumeMounts:
   - name: tmp
     mountPath: /tmp
-
 volumes:
   - name: tmp
     emptyDir: {}
-
