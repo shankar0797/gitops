@@ -1,10 +1,16 @@
-apiVersion: v1
+﻿apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "pharma-app.fullname" . }}
   labels:
     {{- include "pharma-app.labels" . | nindent 4 }}
 data:
-  API_BASE_URL: {{ .Values.config.API_BASE_URL | quote }}
-  AUTH_BASE_URL: {{ .Values.config.AUTH_BASE_URL | quote }}
-  ENV: {{ .Values.config.ENV | quote }}
+{{- if .Values.configmap }}
+{{- range $key, $value := .Values.configmap }}
+  {{ $key }}: {{ $value | quote }}
+{{- end }}
+{{- else }}
+{{- range $key, $value := .Values.config }}
+  {{ $key }}: {{ $value | quote }}
+{{- end }}
+{{- end }}

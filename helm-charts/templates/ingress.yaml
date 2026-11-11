@@ -1,15 +1,29 @@
-{{- if .Values.ingress.enabled }}
+﻿{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "pharma-app.fullname" . }}
   labels:
     {{- include "pharma-app.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
+    {{- if hasKey .Values.ingress "path" }}
+    - host: {{ .Values.ingress.host | default "" | quote }}
+      http:
+        paths:
+          - path: {{ .Values.ingress.path }}
+            pathType: {{ .Values.ingress.pathType | default "Prefix" }}
+            backend:
+              service:
+                name: {{ include "pharma-app.fullname" . }}
+                port:
+                  number: {{ .Values.service.port }}
+    {{- else }}
     {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
@@ -23,5 +37,6 @@ spec:
                 port:
                   number: {{ $.Values.service.port }}
           {{- end }}
+    {{- end }}
     {{- end }}
 {{- end }}

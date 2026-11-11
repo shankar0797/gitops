@@ -1,4 +1,4 @@
-replicaCount: 1
+﻿replicaCount: 1
 
 nameOverride: ""
 fullnameOverride: ""
@@ -58,3 +58,11 @@ autoscaling:
 securityContext:
   runAsNonRoot: true
   readOnlyRootFilesystem: true
+
+# Backend-compatible optional settings
+envFrom: []
+volumeMounts: []
+volumes: []
+configmap: {}
+livenessProbe: {}
+readinessProbe: {}
