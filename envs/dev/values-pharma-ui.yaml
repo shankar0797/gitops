@@ -53,4 +53,5 @@ autoscaling:
 
 securityContext:
   runAsNonRoot: false
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
+
