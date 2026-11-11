@@ -52,5 +52,5 @@ autoscaling:
   enabled: false
 
 securityContext:
-  runAsNonRoot: true
+  runAsNonRoot: false
   readOnlyRootFilesystem: true
