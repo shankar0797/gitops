@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: 683604924610.dkr.ecr.us-east-1.amazonaws.com/pharma-ui
-  tag: "sha-f8eabb4"
+  tag: sha-0481fbf
   pullPolicy: Always
 
 serviceAccount:
@@ -54,4 +54,5 @@ autoscaling:
 securityContext:
   runAsNonRoot: false
   readOnlyRootFilesystem: false
+
 
