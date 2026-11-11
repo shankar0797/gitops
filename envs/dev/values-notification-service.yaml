@@ -1,26 +1,21 @@
-﻿replicaCount: 1
+replicaCount: 1
 fullnameOverride: notification-service
-
 image:
   repository: "683604924610.dkr.ecr.us-east-1.amazonaws.com/notification-service"
-  tag: latest
+  tag: sha-24c2cad
   pullPolicy: Always
-
 serviceAccount:
   create: true
   name: notification-service
   annotations: {}
-
 service:
   type: ClusterIP
   port: 3000
   targetPort: 3000
-
 ingress:
   enabled: false
   className: alb
   annotations: {}
-
 resources:
   requests:
     cpu: 50m
@@ -28,13 +23,11 @@ resources:
   limits:
     cpu: 200m
     memory: 256Mi
-
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 70
-
 livenessProbe:
   path: "/actuator/health"
   port: 3000
@@ -43,7 +36,6 @@ livenessProbe:
   timeoutSeconds: 5
   failureThreshold: 3
   successThreshold: 1
-
 readinessProbe:
   path: "/actuator/health/readiness"
   port: 3000
@@ -52,7 +44,6 @@ readinessProbe:
   timeoutSeconds: 5
   failureThreshold: 3
   successThreshold: 1
-
 configmap:
   NODE_ENV: development
   PORT: "3000"
@@ -60,16 +51,12 @@ configmap:
   SMTP_HOST: smtp.example.com
   SMTP_PORT: "587"
   EMAIL_FROM: noreply-dev@example.com
-
 envFrom:
   - secretRef:
       name: db-credentials
-
 volumeMounts:
   - name: tmp
     mountPath: /tmp
-
 volumes:
   - name: tmp
     emptyDir: {}
-
