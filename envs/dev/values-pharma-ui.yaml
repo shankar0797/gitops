@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: 683604924610.dkr.ecr.us-east-1.amazonaws.com/pharma-ui
-  tag: sha-0481fbf
+  tag: sha-adde4f5
   pullPolicy: Always
 
 serviceAccount:
