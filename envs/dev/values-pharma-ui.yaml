@@ -1,19 +1,15 @@
 replicaCount: 2
-
 image:
   repository: 683604924610.dkr.ecr.us-east-1.amazonaws.com/pharma-ui
-  tag: sha-adde4f5
+  tag: sha-8613d4c
   pullPolicy: Always
-
 serviceAccount:
   create: true
   name: ""
-
 service:
   type: ClusterIP
   port: 80
   targetPort: 8080
-
 ingress:
   enabled: true
   className: alb
@@ -26,12 +22,10 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-
 config:
   API_BASE_URL: "/api"
   AUTH_BASE_URL: "/api/auth"
   ENV: "dev"
-
 resources:
   requests:
     cpu: 100m
@@ -39,7 +33,6 @@ resources:
   limits:
     cpu: 500m
     memory: 512Mi
-
 probes:
   liveness:
     path: /
@@ -47,12 +40,8 @@ probes:
   readiness:
     path: /
     port: 8080
-
 autoscaling:
   enabled: false
-
 securityContext:
   runAsNonRoot: false
   readOnlyRootFilesystem: false
-
-
